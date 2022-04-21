@@ -1,0 +1,10 @@
+{
+  "name": "MMM-MQTTAlert",
+  "version": "1.0.0",
+  "description": "Show payload from subscribed MQTT message",
+  "author": "C-son",
+  "license": "MIT",
+  "dependencies": {
+    "mqtt": "^2.15.1"
+  }
+}
