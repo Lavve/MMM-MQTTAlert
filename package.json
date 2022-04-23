@@ -5,6 +5,6 @@
   "author": "C-son",
   "license": "MIT",
   "dependencies": {
-    "mqtt": "^2.15.1"
+    "mqtt": "^4.3.7"
   }
 }
