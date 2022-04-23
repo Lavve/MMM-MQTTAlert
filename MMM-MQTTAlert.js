@@ -1,7 +1,7 @@
 Module.register('MMM-MQTTAlert', {
   // Default module config
   defaults: {
-    removeMessage: 'EMPTY',
+    removeAllMessage: 'REMOVEALL',
     fontSize: '2rem',
     mqttServer: {},
   },
@@ -29,14 +29,10 @@ Module.register('MMM-MQTTAlert', {
       Log.info('Received message: ', payload);
 
       if (this.config.topics.includes(payload.topic)) {
-        const alertId = makeId(payload.id);
-
-        if ( payload.id === 'ALL' && payload.message === this.config.removeMessage ) {
+        if (payload.message === this.config.removeAllMessage) {
           this.removeAlerts();
-        } else if (payload.message === this.config.removeMessage) {
-          this.removeAlert(alertId);
-        } else if (payload.message !== this.config.removeMessage) {
-          this.makeAlerts(alertId, payload.message);
+        } else {
+          this.toggleAlert(payload);
         }
       }
     }
@@ -45,21 +41,19 @@ Module.register('MMM-MQTTAlert', {
   removeAlerts: function (id) {
     [...document.querySelectorAll('.mmm-mqttalert__message')].forEach(el => {
       el.remove();
-    })
-
+    });
     this.alerts = {};
     this.updateDom();
   },
 
-  removeAlert: function (id) {
-    const el = document.querySelector(`#${id}`);
-    if (el !== null) el.remove();
-    if (this.alerts.hasOwnProperty(id)) delete this.alerts[id];
-    this.updateDom();
-  },
-
-  makeAlerts: function (id, value) {
-    this.alerts[id] = value;
+  toggleAlert: function (payload) {
+    if (this.alerts.hasOwnProperty(payload.id)) {
+      const el = document.querySelector(`#${payload.id}`);
+      if (el !== null) el.remove();
+      delete this.alerts[payload.id];
+    } else {
+      this.alerts[payload.id] = payload.message;
+    }
     this.updateDom();
   },
 

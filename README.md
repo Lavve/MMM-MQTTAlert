@@ -20,7 +20,7 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
   module: 'MMM-MQTTAlert',
   position: 'middle_center',
   config: {
-    removeMessage: 'EMPTY',
+    removeMessage: 'REMOVEALL',
     fontSize: '2rem',
     topics: [''],
     mqttServer: {
@@ -36,7 +36,7 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
 
 | Configuration | Default | Type | Optional | Description |
 | --- | --- | --- | --- | --- |
-| removeMessage | `'EMPTY'` | str | ✓ | String sent to remove the message |
+| removeMessage | `'REMOVEALL'` | str | ✓ | Message to remove all messages |
 | fontSize | `'2rem'` | str |  ✓ | Text size of the message. If unit is left out, `'px'` will be used |
 | topics | `[]` | array |   | Array of topics the module should listen to |
 | mqttServer | `{}` | obj |   | See below |
@@ -51,16 +51,28 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
 
 ## The message
 
-To show a message the mqtt message must contain a unique id, followed by a pipe ('`|`'), and then the message it self, like so:
+### Add message
+
+To show an alert on your MM², simply send a MQTT message to the chosen topic, like so:
 
 ```
-MySunnyId|☀️ The sun is shining!
+☀️ The sun is shining!
 ```
 
-To remove a message the mqtt message must contain the specific id, followed by a pipe ('`|`'), and then the remove message set in the config (`'EMPTY'` is default):
+### Remove message
+
+To remove a message on your MM², just send the _exact_ same message on the same topic, like so:
 
 ```
-MySunnyId|EMPTY
+☀️ The sun is shining!
+```
+
+## Remove all messages
+
+If you need to remove all MQTT messages on your MM², send a message containing the chosen `removeMessage` set in the config, like so:
+
+```
+REMOVEALL
 ```
 
 ## Collaborate

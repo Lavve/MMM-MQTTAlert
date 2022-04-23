@@ -1,10 +1,10 @@
-const makeId = (id) => {
-  const idClean = id.toLowerCase().trim().replace(/[^a-z0-9]+/g, '');
-  return `id_${this.name}_${idClean}`;
+const makeId = (str) => {
+  const idClean = str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '');
+  return `id_mqttalert_${idClean}`;
 };
 
 const makeFontSize = (size) => {
-  return /[a-z]+$/g.test(size.trim()) ? size.trim() : size.trim() + 'px'
+  return /[a-z]+$/g.test(size) ? size : size + 'px'
 };
 
 if (typeof window === 'undefined' || navigator.userAgent.includes('jsdom')) {
