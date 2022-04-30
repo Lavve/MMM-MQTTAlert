@@ -6,11 +6,12 @@ A module for [MagicMirror²](https://github.com/MichMich/MagicMirror) to show pa
 
 ## Install
 
-1. Clone repository into the `MagicMirror/modules/` folder:
+1. Clone repository into the `MagicMirror/modules/` folder and install the dependencies:
 
 ```
 cd ~/MagicMirror/modules
 git clone https://github.com/Lavve/MMM-MQTTAlert
+npm install
 ```
 
 2. Add the module to the MagicMirror config.js:
@@ -20,7 +21,8 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
   module: 'MMM-MQTTAlert',
   position: 'middle_center',
   config: {
-    removeMessage: 'REMOVEALL',
+    removeAllMessages: 'REMOVEALL',
+    removeMessage: 'REMOVE',
     fontSize: '2rem',
     topics: [''],
     mqttServer: {
@@ -36,9 +38,10 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
 
 | Configuration | Default | Type | Optional | Description |
 | --- | --- | --- | --- | --- |
-| removeMessage | `'REMOVEALL'` | str | ✓ | Message to remove all messages |
+| removeAllMessages | `'REMOVEALL'` | str | ✓ | Message to remove all messages |
+| removeMessage | `'REMOVE'` | str | ✓ | Message to remove a specific message |
 | fontSize | `'2rem'` | str |  ✓ | Text size of the message. If unit is left out, `'px'` will be used |
-| topics | `[]` | array |   | Array of topics the module should listen to |
+| topics | `[]` | array |   | Array of topics the module should listen to, no trailing slash |
 | mqttServer | `{}` | obj |   | See below |
 
 ### mqttServer options
@@ -49,9 +52,9 @@ git clone https://github.com/Lavve/MMM-MQTTAlert
 | user | `''` | str | ✓ | Username for the MQTT broker |
 | password | `''` | str | ✓ | Password for the MQTT broker |
 
-## The message
+## The messages
 
-### Add message
+### Add a message
 
 To show an alert on your MM², simply send a MQTT message to the chosen topic, like so:
 
@@ -59,17 +62,17 @@ To show an alert on your MM², simply send a MQTT message to the chosen topic, l
 ☀️ The sun is shining!
 ```
 
-### Remove message
+### Remove a message
 
-To remove a message on your MM², just send the _exact_ same message on the same topic, like so:
+To remove a message on your MM², just send the _exact_ same message on the _exact_ same topic, but with a trailing string with what you've specified in the config. Default is `'REMOVE'` in upper case, like so:
 
 ```
-☀️ The sun is shining!
+☀️ The sun is shining!REMOVE
 ```
 
-## Remove all messages
+### Remove all messages
 
-If you need to remove all MQTT messages on your MM², send a message containing the chosen `removeMessage` set in the config, like so:
+If you need to remove all MQTT messages on your MM², send a message containing the chosen `removeAllMessages` set in the config, like so:
 
 ```
 REMOVEALL

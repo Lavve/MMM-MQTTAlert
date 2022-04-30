@@ -1,7 +1,8 @@
 Module.register('MMM-MQTTAlert', {
   // Default module config
   defaults: {
-    removeAllMessage: 'REMOVEALL',
+    removeAllMessages: 'REMOVEALL',
+    removeMessage: 'REMOVE',
     fontSize: '2rem',
     mqttServer: {},
   },
@@ -29,7 +30,7 @@ Module.register('MMM-MQTTAlert', {
       Log.info('Received message: ', payload);
 
       if (this.config.topics.includes(payload.topic)) {
-        if (payload.message === this.config.removeAllMessage) {
+        if (payload.message === this.config.removeAllMessages) {
           this.removeAlerts();
         } else {
           this.toggleAlert(payload);
@@ -47,7 +48,7 @@ Module.register('MMM-MQTTAlert', {
   },
 
   toggleAlert: function (payload) {
-    if (this.alerts.hasOwnProperty(payload.id)) {
+    if (this.alerts.hasOwnProperty(payload.id) && payload.isOff) {
       const el = document.querySelector(`#${payload.id}`);
       if (el !== null) el.remove();
       delete this.alerts[payload.id];

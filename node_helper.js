@@ -40,11 +40,13 @@ module.exports = NodeHelper.create({
     that.client.on('message', (topic, payload) => {
       console.log(`${that.name}: Message on ${topic}: ${payload.toString()}`);
       const message = payload.toString().trim();
+      const isOff = message.substr(-3) === config.removeMessage;
 
       if (config.topics.includes(topic) && message !== '') {
         that.sendSocketNotification('MQTT_ALERT', {
           topic: topic,
           id: makeId(message),
+          isoff: isOff,
           message: message,
           time: Date.now(),
         });
