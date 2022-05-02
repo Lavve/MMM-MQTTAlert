@@ -39,13 +39,9 @@ module.exports = NodeHelper.create({
 
     that.client.on('message', (topic, payload) => {
       console.log(`${that.name}: Message on ${topic}: ${payload.toString()}`);
-      const isOff = payload
-        .toString()
-        .trim()
-        .slice(0, -Math.abs(config.removeMessage.length)) === config.removeMessage;
-      const message = isOff
-        ? payload.toString().trim().slice(0, -Math.abs(config.removeMessage.length))
-        : payload.toString().trim();
+      const msg = payload.toString().trim();
+      const isOff = msg.slice(-Math.abs(config.removeMessage.length)) === config.removeMessage;
+      const message = isOff ? msg.slice(0, -Math.abs(config.removeMessage.length)) : msg;
 
       if (config.topics.includes(topic) && message !== '') {
         that.sendSocketNotification('MQTT_ALERT', {

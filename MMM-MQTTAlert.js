@@ -48,7 +48,7 @@ Module.register('MMM-MQTTAlert', {
   },
 
   toggleAlert: function (payload) {
-    if (this.alerts.hasOwnProperty(payload.id) && payload.isOff) {
+    if (this.alerts.hasOwnProperty(payload.id) && payload.isoff) {
       const el = document.querySelector(`#${payload.id}`);
       if (el !== null) el.remove();
       delete this.alerts[payload.id];
